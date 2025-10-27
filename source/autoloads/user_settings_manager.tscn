@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cw1vn0yaq5qqy"]
+
+[ext_resource type="Script" uid="uid://cqn6qt6glp4qk" path="res://source/autoloads/user_settings_manager.gd" id="1_ik4t2"]
+
+[node name="UserSettingsManager" type="Node"]
+script = ExtResource("1_ik4t2")

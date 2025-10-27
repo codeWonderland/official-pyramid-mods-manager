@@ -1,0 +1,78 @@
+[gd_resource type="Theme" load_steps=10 format=3 uid="uid://dkcfibuwqlsb5"]
+
+[ext_resource type="FontFile" uid="uid://cm0f7sh1s1552" path="res://assets/fonts/Knewave-Regular.ttf" id="1_3f3va"]
+[ext_resource type="StyleBox" uid="uid://1yr2oyhmdn6y" path="res://assets/themes/style_boxes/button.tres" id="1_axncs"]
+[ext_resource type="Texture2D" uid="uid://bakts8eoog0cj" path="res://assets/sprites/ui/icons/confirm.png" id="1_gvtt4"]
+[ext_resource type="StyleBox" uid="uid://bt1fm0linub66" path="res://assets/themes/style_boxes/checkbox.tres" id="2_axncs"]
+[ext_resource type="StyleBox" uid="uid://u1snu468ch3a" path="res://assets/themes/style_boxes/panel_container.tres" id="2_lxams"]
+[ext_resource type="Texture2D" uid="uid://bhgkip670mh4r" path="res://assets/sprites/ui/icons/down-caret.png" id="5_4fp8c"]
+[ext_resource type="StyleBox" uid="uid://c2utbn782dhf3" path="res://assets/themes/style_boxes/selected_button.tres" id="7_0f6i3"]
+
+[sub_resource type="ImageTexture" id="ImageTexture_4fp8c"]
+
+[sub_resource type="ImageTexture" id="ImageTexture_0f6i3"]
+
+[resource]
+BigTitle/base_type = &"Label"
+BigTitle/colors/font_shadow_color = Color(0, 0, 0, 1)
+BigTitle/constants/line_spacing = -16
+BigTitle/constants/outline_size = 16
+BigTitle/constants/shadow_offset_x = 8
+BigTitle/constants/shadow_offset_y = 8
+BigTitle/font_sizes/font_size = 48
+Button/colors/font_outline_color = Color(0, 0, 0, 1)
+Button/constants/outline_size = 4
+Button/font_sizes/font_size = 32
+Button/styles/disabled = ExtResource("1_axncs")
+Button/styles/focus = ExtResource("1_axncs")
+Button/styles/hover = ExtResource("1_axncs")
+Button/styles/normal = ExtResource("1_axncs")
+Button/styles/pressed = ExtResource("1_axncs")
+CheckBox/icons/checked = ExtResource("1_gvtt4")
+CheckBox/icons/unchecked = SubResource("ImageTexture_4fp8c")
+CheckBox/styles/disabled = ExtResource("2_axncs")
+CheckBox/styles/focus = ExtResource("2_axncs")
+CheckBox/styles/hover = ExtResource("2_axncs")
+CheckBox/styles/hover_pressed = ExtResource("2_axncs")
+CheckBox/styles/normal = ExtResource("2_axncs")
+CheckBox/styles/pressed = ExtResource("2_axncs")
+ExtraLargeTitle/base_type = &"Label"
+ExtraLargeTitle/colors/font_shadow_color = Color(0, 0, 0, 1)
+ExtraLargeTitle/constants/line_spacing = -24
+ExtraLargeTitle/constants/outline_size = 16
+ExtraLargeTitle/constants/shadow_offset_x = 8
+ExtraLargeTitle/constants/shadow_offset_y = 8
+ExtraLargeTitle/font_sizes/font_size = 64
+HBoxContainer/constants/separation = 8
+Label/constants/outline_size = 8
+Label/font_sizes/font_size = 32
+Label/fonts/font = ExtResource("1_3f3va")
+LineEdit/font_sizes/font_size = 32
+MarginContainer/constants/margin_bottom = 16
+MarginContainer/constants/margin_left = 16
+MarginContainer/constants/margin_right = 16
+MarginContainer/constants/margin_top = 16
+MediumTitle/base_type = &"Label"
+MediumTitle/colors/font_shadow_color = Color(0, 0, 0, 1)
+MediumTitle/constants/line_spacing = -16
+MediumTitle/constants/outline_size = 16
+MediumTitle/constants/shadow_offset_x = 6
+MediumTitle/constants/shadow_offset_y = 6
+MediumTitle/font_sizes/font_size = 40
+OptionButton/constants/arrow_margin = 16
+OptionButton/constants/h_separation = 16
+OptionButton/constants/outline_size = 8
+OptionButton/font_sizes/font_size = 32
+OptionButton/icons/arrow = ExtResource("5_4fp8c")
+PanelContainer/styles/panel = ExtResource("2_lxams")
+PopupMenu/font_sizes/font_size = 40
+PopupMenu/icons/radio_checked = ExtResource("1_gvtt4")
+PopupMenu/icons/radio_unchecked = SubResource("ImageTexture_0f6i3")
+RichTextLabel/constants/outline_size = 8
+RichTextLabel/font_sizes/normal_font_size = 32
+SelectableButton/base_type = &"Button"
+SelectableButton/styles/focus = ExtResource("7_0f6i3")
+SelectableButton/styles/pressed = ExtResource("7_0f6i3")
+SmallLabel/base_type = &"Label"
+SmallLabel/constants/line_spacing = -8
+SmallLabel/font_sizes/font_size = 24

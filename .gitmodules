@@ -1,0 +1,3 @@
+[submodule "source/mod-manager"]
+	path = source/mod-manager
+	url = git@github.com:codeWonderland/pyramid-mod-manager-submodule

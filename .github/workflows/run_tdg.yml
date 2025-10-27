@@ -1,0 +1,29 @@
+# Turn your TODO comments into GitHub Issues
+# This workflow runs the tdg-github-action to manage TODO comments in your codebase.
+# It will create issues for TODOs, track their status, and manage labels.
+# The action will run on every push and pull request to the repository.
+# It will also close issues that are resolved by the latest commit.
+
+name: Generate TODO Tickets
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        permissions:
+          contents: write
+          issues: write
+        steps:
+            - uses: actions/checkout@v3
+            - name: Run tdg-github-action
+              uses: ribtoks/tdg-github-action@master
+              with:
+                  TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  REPO: ${{ github.repository }}
+                  SHA: ${{ github.sha }}
+                  REF: ${{ github.ref }}
+                  LABEL: "TODO Ticket"
