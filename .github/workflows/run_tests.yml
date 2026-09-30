@@ -1,0 +1,37 @@
+name: run tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  merge_group:
+    branches:
+      - main
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          # The shared mod manager lives in a submodule, and its own tests run
+          # here too, so a submodule change that breaks this app is caught.
+          submodules: recursive
+
+      - name: Set up Godot
+        uses: chickensoft-games/setup-godot@v2
+        with:
+          version: 4.5.1
+          use-dotnet: false
+          include-templates: false
+
+      - name: Import project
+        run: godot --headless --import
+
+      - name: Run GUT unit tests
+        run: godot --headless -s addons/gut/gut_cmdln.gd -gexit
