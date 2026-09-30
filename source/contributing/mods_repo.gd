@@ -175,9 +175,18 @@ func submit(title: String, body: String) -> Dictionary:
 	return published
 
 
-## Your open pull requests to the official mods, newest first, each as
+## Your open pull requests to the official mods, each as
 ## { number, title, url, checks, review }.
+##
+## Lists the open pull requests and keeps the player's own, rather than asking
+## gh for "--author @me": that goes through GitHub's search index, which lags a
+## newly opened pull request - so right after submitting, the player was told
+## they had no open submissions.
 func my_submissions() -> Dictionary:
+	var user := await _github_user()
+	if user.is_empty():
+		return {"ok": false, "message": "Couldn't find your GitHub account. Are you signed in?"}
+
 	var result := await (
 		runner
 		. run(
@@ -187,12 +196,12 @@ func my_submissions() -> Dictionary:
 				"list",
 				"--repo",
 				UPSTREAM,
-				"--author",
-				"@me",
 				"--state",
 				"open",
+				"--limit",
+				"200",
 				"--json",
-				"number,title,url,reviewDecision,statusCheckRollup",
+				"number,title,url,author,reviewDecision,statusCheckRollup",
 			]
 		)
 	)
@@ -206,6 +215,9 @@ func my_submissions() -> Dictionary:
 	var submissions: Array = []
 	for pr in json.data:
 		if not (pr is Dictionary):
+			continue
+		var author = pr.get("author", {})
+		if not (author is Dictionary) or str(author.get("login", "")) != user.login:
 			continue
 		(
 			submissions
