@@ -14,7 +14,7 @@ config/name="Official Pyramid Mod Manager"
 config/version="1.0.0"
 run/main_scene="uid://ctf5sb112jkcq"
 config/features=PackedStringArray("4.5", "GL Compatibility")
-boot_splash/bg_color=Color(0.56078434, 0.8235294, 0.91764706, 1)
+boot_splash/bg_color=Color(0.019607844, 0.07450981, 0.18431373, 1)
 boot_splash/image="uid://u52jchngj51e"
 config/icon="uid://betxlbc4jxcah"
 
@@ -35,7 +35,7 @@ enabled=PackedStringArray("res://addons/gut/plugin.cfg")
 [gui]
 
 theme/custom="uid://dkcfibuwqlsb5"
-theme/custom_font="uid://cm0f7sh1s1552"
+theme/custom_font="uid://b7oxnm1wght7"
 
 [input]
 
@@ -49,4 +49,4 @@ Escape={
 
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
-environment/defaults/default_clear_color=Color(0.56078434, 0.8235294, 0.91764706, 1)
+environment/defaults/default_clear_color=Color(0.019607844, 0.07450981, 0.18431373, 1)
