@@ -364,9 +364,27 @@ func _ensure_identity(user: Dictionary) -> Dictionary:
 	return _ok()
 
 
-## Where to push: the official repo for anyone allowed to, otherwise a fork on
+## Lets git push with the player's GitHub sign-in from gh. Set in this copy only
+## (gh's own "auth setup-git" would change the player's global git config).
+## The empty helper first clears any others inherited from global config, so a
+## stale saved password can't be tried instead.
+func _use_github_sign_in() -> Dictionary:
+	var key := "credential.https://github.com.helper"
+	await _git(["config", "--local", "--unset-all", key])
+	for helper in ["", "!gh auth git-credential"]:
+		var result := await _git(["config", "--local", "--add", key, helper])
+		if result.code != 0:
+			return _fail("Couldn't connect your GitHub sign-in to git.", result)
+	return _ok()
+
+
+## Where and how to push: the official repo for anyone allowed to, otherwise a fork on
 ## the player's own account, created the first time it's needed.
 func _push_remote(login: String) -> Dictionary:
+	var credentials := await _use_github_sign_in()
+	if not credentials.ok:
+		return credentials
+
 	var access := await runner.run("gh", ["api", "repos/" + UPSTREAM, "--jq", ".permissions.push"])
 	if access.code == 0 and access.output == "true":
 		return {"ok": true, "name": "origin", "owner": UPSTREAM.get_slice("/", 0)}

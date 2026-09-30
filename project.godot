@@ -21,6 +21,7 @@ config/icon="uid://betxlbc4jxcah"
 [autoload]
 
 UserSettingsManager="*res://source/autoloads/user_settings_manager.tscn"
+Contributing="*res://source/autoloads/contributing.gd"
 
 [display]
 

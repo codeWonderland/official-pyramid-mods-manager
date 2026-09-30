@@ -1,0 +1,56 @@
+[gd_scene load_steps=3 format=3 uid="uid://b1sbm1tdlg02"]
+
+[ext_resource type="Script" uid="uid://ci7kpcgafjh1j" path="res://source/menus/popups/submissions_dialog.gd" id="1_s"]
+[ext_resource type="Texture2D" uid="uid://lh3dna1fipe" path="res://assets/sprites/ui/icons/close.png" id="2_c"]
+
+[node name="SubmissionsDialog" type="PanelContainer"]
+visible = false
+offset_right = 48.0
+offset_bottom = 48.0
+script = ExtResource("1_s")
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 32
+
+[node name="Body" type="VBoxContainer" parent="Margin"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="Heading" type="Label" parent="Margin/Body"]
+layout_mode = 2
+theme_type_variation = &"BigTitle"
+text = "My Submissions"
+horizontal_alignment = 1
+
+[node name="StatusLabel" type="Label" parent="Margin/Body"]
+unique_name_in_owner = true
+layout_mode = 2
+autowrap_mode = 3
+
+[node name="Scroll" type="ScrollContainer" parent="Margin/Body"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="List" type="VBoxContainer" parent="Margin/Body/Scroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 16
+
+[node name="ReloadButton" type="Button" parent="Margin/Body"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Reload"
+
+[node name="Close" type="TextureButton" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+texture_normal = ExtResource("2_c")

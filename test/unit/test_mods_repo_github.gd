@@ -106,6 +106,21 @@ func test_an_existing_fork_remote_is_reused() -> void:
 	assert_false(runner.called("remote add fork"), "not added twice")
 
 
+func test_submitting_uses_the_github_sign_in_for_this_copy_only() -> void:
+	var runner := _submitting(true)
+
+	await _repo(runner).submit("Update", "")
+
+	assert_true(
+		runner.called(
+			"config --local --add credential.https://github.com.helper !gh auth git-credential"
+		),
+		"gh signs pushes in, set on this copy"
+	)
+	for line in runner.calls:
+		assert_false(line.contains("--global"), "never the player's global config: %s" % line)
+
+
 func test_the_pr_lists_the_changed_packs() -> void:
 	var runner := _submitting(true)
 

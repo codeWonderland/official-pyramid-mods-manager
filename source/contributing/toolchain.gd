@@ -76,8 +76,6 @@ func check() -> Dictionary:
 			var user := await runner.run("gh", ["api", "user", "--jq", ".login"])
 			if user.code == 0:
 				report.user = user.output
-			# Lets plain git pushes use the same GitHub sign-in as gh.
-			await runner.run("gh", ["auth", "setup-git", "--hostname", "github.com"])
 		else:
 			(
 				report
