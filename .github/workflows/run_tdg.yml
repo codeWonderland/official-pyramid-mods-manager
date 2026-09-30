@@ -27,3 +27,6 @@ jobs:
                   SHA: ${{ github.sha }}
                   REF: ${{ github.ref }}
                   LABEL: "TODO Ticket"
+                  # Don't file tickets for TODOs inside vendored third-party
+                  # code (e.g. the GUT testing addon).
+                  EXCLUDE_PATTERN: "addons/.*"
