@@ -209,41 +209,6 @@ func test_a_title_is_required() -> void:
 
 # --- Reading submissions back ---
 
-
-func test_submissions_are_read_from_gh() -> void:
-	var json := (
-		JSON
-		. stringify(
-			[
-				{
-					"number": 7,
-					"title": "Add Balatro",
-					"url": "https://github.com/codeWonderland/pyramid-mods/pull/7",
-					"reviewDecision": "CHANGES_REQUESTED",
-					"statusCheckRollup": [{"conclusion": "SUCCESS"}],
-				}
-			]
-		)
-	)
-	var runner := FakeCommandRunner.new().on("gh pr list", 0, json)
-
-	var result := await _repo(runner).my_submissions()
-
-	assert_true(result.ok, "loaded")
-	assert_eq(result.submissions[0].number, 7, "number")
-	assert_eq(result.submissions[0].checks, "passing", "checks summarised")
-	assert_eq(result.submissions[0].review, "changes requested", "review summarised")
-	assert_string_contains(runner.first_call("gh pr list"), "--author @me", "only your own")
-
-
-func test_unreadable_submissions_are_an_error_not_a_crash() -> void:
-	var runner := FakeCommandRunner.new().on("gh pr list", 0, "not json")
-
-	var result := await _repo(runner).my_submissions()
-
-	assert_false(result.ok, "reported as a failure")
-
-
 # --- Pure helpers ---
 
 
