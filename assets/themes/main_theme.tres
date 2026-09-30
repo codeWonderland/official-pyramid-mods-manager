@@ -181,6 +181,7 @@ SelectableButton/styles/focus = ExtResource("7_0f6i3")
 SelectableButton/styles/pressed = ExtResource("7_0f6i3")
 SmallCheckBox/base_type = &"CheckBox"
 SmallCheckBox/font_sizes/font_size = 22
+TextEdit/font_sizes/font_size = 28
 SmallLabel/base_type = &"Label"
 SmallLabel/constants/line_spacing = 0
 SmallLabel/font_sizes/font_size = 24
