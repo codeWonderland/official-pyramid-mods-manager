@@ -37,7 +37,9 @@ jobs:
 
       - name: Run gdformat
         id: gdformat
-        run: gdformat .
+        # Scoped to our own code: addons/ holds vendored GUT, which follows its own
+        # conventions and must never be rewritten by the auto-format commit below.
+        run: gdformat source test
 
       - name: Check for modified files
         id: git-check
@@ -53,4 +55,4 @@ jobs:
           git push
 
       - name: Run gdlint
-        run: gdlint .
+        run: gdlint source test
