@@ -26,12 +26,16 @@ func test_everything_in_place_is_ready() -> void:
 	assert_eq(report.problems, [], "nothing to fix")
 
 
-func test_signing_in_also_sets_up_git_to_use_it() -> void:
+func test_the_check_never_changes_global_git_settings() -> void:
+	# gh's "auth setup-git" rewrites the player's global git config; the check
+	# must only look, never touch.
 	var runner := FakeCommandRunner.new().on("gh api user", 0, "alice")
 
 	await _check(runner)
 
-	assert_true(runner.called("gh auth setup-git"), "pushes will use the same GitHub sign-in")
+	assert_false(runner.called("setup-git"), "nothing configured globally")
+	for line in runner.calls:
+		assert_false(line.contains("config --global"), "no global config written: %s" % line)
 
 
 func test_missing_git_says_where_to_get_it() -> void:
@@ -65,7 +69,6 @@ func test_signed_out_gives_the_command_to_run() -> void:
 	assert_false(report.signed_in, "signed out")
 	assert_false(report.ready, "not ready")
 	assert_eq(report.problems[0].command, Toolchain.SIGN_IN_COMMAND, "the command to sign in")
-	assert_false(runner.called("gh auth setup-git"), "nothing to set up yet")
 
 
 func test_everything_missing_is_reported_together() -> void:

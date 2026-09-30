@@ -1,10 +1,13 @@
-[gd_scene load_steps=6 format=3 uid="uid://ctf5sb112jkcq"]
+[gd_scene load_steps=9 format=3 uid="uid://ctf5sb112jkcq"]
 
 [ext_resource type="Theme" uid="uid://dkcfibuwqlsb5" path="res://assets/themes/main_theme.tres" id="1_3w2xd"]
 [ext_resource type="Script" uid="uid://cbob4lq0ngk6w" path="res://source/menus/main_menu.gd" id="2_ea0ap"]
 [ext_resource type="Texture2D" uid="uid://u52jchngj51e" path="res://assets/sprites/ui/background.png" id="3_qwdd7"]
 [ext_resource type="Texture2D" uid="uid://bblsle51171hr" path="res://assets/sprites/ui/buttons/exit.png" id="5_emlqa"]
 [ext_resource type="Texture2D" uid="uid://bwdl5x2iaqyfp" path="res://assets/sprites/ui/buttons/github.png" id="7_emlqa"]
+[ext_resource type="PackedScene" uid="uid://b1sbm1tdlg01" path="res://source/menus/popups/submit_dialog.tscn" id="8_sub"]
+[ext_resource type="PackedScene" uid="uid://b1sbm1tdlg02" path="res://source/menus/popups/submissions_dialog.tscn" id="9_subs"]
+[ext_resource type="PackedScene" uid="uid://b1sbm1tdlg03" path="res://source/menus/popups/discard_dialog.tscn" id="10_disc"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -49,62 +52,111 @@ size_flags_horizontal = 8
 size_flags_vertical = 0
 texture_normal = ExtResource("7_emlqa")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+[node name="Layout" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
-size_flags_vertical = 8
+size_flags_vertical = 4
+theme_override_constants/separation = 24
 
-[node name="SelectFolder" type="Button" parent="MarginContainer/HBoxContainer"]
+[node name="Title" type="Label" parent="MarginContainer/Layout"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Select Mods Folder"
-
-[node name="EditMods" type="Button" parent="MarginContainer/HBoxContainer"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-text = "Edit Mods"
-
-[node name="Control" type="Control" parent="."]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Title" type="Label" parent="Control"]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -261.5
-offset_top = -92.0
-offset_right = 261.5
-offset_bottom = 92.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 4
 theme_type_variation = &"BigTitle"
 text = "The Pyramid:
 Mod Manager"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Panel" type="PanelContainer" parent="MarginContainer/Layout"]
+custom_minimum_size = Vector2(1100, 0)
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="MarginContainer/Layout/Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 24
+
+[node name="Body" type="VBoxContainer" parent="MarginContainer/Layout/Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="SetupHeading" type="Label" parent="MarginContainer/Layout/Panel/Margin/Body"]
+layout_mode = 2
+text = "Getting set up"
+
+[node name="SetupList" type="VBoxContainer" parent="MarginContainer/Layout/Panel/Margin/Body"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="SetupButtons" type="HBoxContainer" parent="MarginContainer/Layout/Panel/Margin/Body"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="CheckAgain" type="Button" parent="MarginContainer/Layout/Panel/Margin/Body/SetupButtons"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Check Again"
+
+[node name="OwnCopy" type="Button" parent="MarginContainer/Layout/Panel/Margin/Body/SetupButtons"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Use my own copy..."
+
+[node name="Separator" type="HSeparator" parent="MarginContainer/Layout/Panel/Margin/Body"]
+layout_mode = 2
+
+[node name="Actions" type="HBoxContainer" parent="MarginContainer/Layout/Panel/Margin/Body"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 16
+
+[node name="EditMods" type="Button" parent="MarginContainer/Layout/Panel/Margin/Body/Actions"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Edit Mods"
+
+[node name="Refresh" type="Button" parent="MarginContainer/Layout/Panel/Margin/Body/Actions"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Get Latest"
+
+[node name="Submit" type="Button" parent="MarginContainer/Layout/Panel/Margin/Body/Actions"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Submit Changes"
+
+[node name="Submissions" type="Button" parent="MarginContainer/Layout/Panel/Margin/Body/Actions"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "My Submissions"
+
+[node name="Message" type="Label" parent="MarginContainer/Layout/Panel/Margin/Body"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SmallLabel"
+horizontal_alignment = 1
+autowrap_mode = 3
+
 [node name="FileDialog" type="FileDialog" parent="."]
 unique_name_in_owner = true
 oversampling_override = 1.0
-title = "Select Mod Packs Folder"
+title = "Choose your copy of pyramid-mods"
 size = Vector2i(1744, 360)
 file_mode = 2
 access = 2
 use_native_dialog = true
+
+[node name="SubmitDialog" parent="." instance=ExtResource("8_sub")]
+unique_name_in_owner = true
+layout_mode = 0
+
+[node name="SubmissionsDialog" parent="." instance=ExtResource("9_subs")]
+unique_name_in_owner = true
+layout_mode = 0
+
+[node name="DiscardDialog" parent="." instance=ExtResource("10_disc")]
+unique_name_in_owner = true
+layout_mode = 0
