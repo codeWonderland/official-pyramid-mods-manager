@@ -23,9 +23,23 @@ func run(program: String, args: PackedStringArray) -> Dictionary:
 	return thread.wait_to_finish()
 
 
+## The arguments as OS.execute must be handed them on this platform. On Windows,
+## Godot joins arguments into one command line and quotes only those with spaces
+## or special characters, so an empty argument vanishes - git then sees one
+## argument too few (for the empty credential helper that resets the list, "wrong
+## number of arguments, should be 2"). Written as a pair of quotes it survives.
+static func platform_args(args: PackedStringArray, windows: bool) -> PackedStringArray:
+	if not windows:
+		return args
+	var out := PackedStringArray()
+	for arg in args:
+		out.append('""' if arg.is_empty() else arg)
+	return out
+
+
 func _execute(program: String, args: PackedStringArray) -> Dictionary:
 	var output: Array = []
-	var code := OS.execute(program, args, output, true)
+	var code := OS.execute(program, platform_args(args, OS.get_name() == "Windows"), output, true)
 	var text := "".join(output).strip_edges()
 
 	# Windows reports a program that can't be started as -1; Linux and macOS
