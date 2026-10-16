@@ -4,6 +4,15 @@ class_name ModsRepo extends RefCounted
 ## contributor does with it: keep it current with GitHub, and send edits back as
 ## a pull request. Nobody using the app needs to know git.
 
+## Settings that make one git command sign in with the player's GitHub sign-in
+## from gh: the empty helper first drops any inherited ones (so a stale saved
+## password isn't tried instead), then gh's. Passed with the command rather than
+## written into git config, so nothing is changed on disk - and no argument is
+## empty, which Windows drops from a command line (writing the empty helper into
+## config failed there with "wrong number of arguments, should be 2").
+const SIGN_IN_ARGS: Array[String] = [
+	"-c", "credential.helper=", "-c", "credential.helper=!gh auth git-credential"
+]
 const UPSTREAM: String = "codeWonderland/pyramid-mods"
 const FORK_REMOTE: String = "fork"
 const BRANCH_PREFIX: String = "mods/"
@@ -317,7 +326,9 @@ func _publish(branch: String, title: String, body: String, prepared: Dictionary)
 		await _rewind(branch, false)
 		return commit
 
-	var push := await _git(["push", "--quiet", "-u", remote.name, branch])
+	var push_args := PackedStringArray(SIGN_IN_ARGS)
+	push_args.append_array(["push", "--quiet", "-u", remote.name, branch])
+	var push := await _git(push_args)
 	if push.code != 0:
 		await _rewind(branch, true)
 		return _fail("Couldn't upload your submission to GitHub.", push)
@@ -376,27 +387,9 @@ func _ensure_identity(user: Dictionary) -> Dictionary:
 	return _ok()
 
 
-## Lets git push with the player's GitHub sign-in from gh. Set in this copy only
-## (gh's own "auth setup-git" would change the player's global git config).
-## The empty helper first clears any others inherited from global config, so a
-## stale saved password can't be tried instead.
-func _use_github_sign_in() -> Dictionary:
-	var key := "credential.https://github.com.helper"
-	await _git(["config", "--local", "--unset-all", key])
-	for helper in ["", "!gh auth git-credential"]:
-		var result := await _git(["config", "--local", "--add", key, helper])
-		if result.code != 0:
-			return _fail("Couldn't connect your GitHub sign-in to git.", result)
-	return _ok()
-
-
 ## Where and how to push: the official repo for anyone allowed to, otherwise a fork on
 ## the player's own account, created the first time it's needed.
 func _push_remote(login: String) -> Dictionary:
-	var credentials := await _use_github_sign_in()
-	if not credentials.ok:
-		return credentials
-
 	var access := await runner.run("gh", ["api", "repos/" + UPSTREAM, "--jq", ".permissions.push"])
 	if access.code == 0 and access.output == "true":
 		return {"ok": true, "name": "origin", "owner": UPSTREAM.get_slice("/", 0)}
