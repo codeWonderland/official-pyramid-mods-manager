@@ -82,7 +82,7 @@ func update() -> void:
 func refresh(discard_changes: bool = false) -> void:
 	var result := await Contributing.refresh(discard_changes)
 	if result.get("needs_confirmation", false):
-		_discard_dialog.open_for(result.changed)
+		_discard_dialog.open_for(result)
 		return
 	show_result(result, "You have the latest mods from GitHub.")
 

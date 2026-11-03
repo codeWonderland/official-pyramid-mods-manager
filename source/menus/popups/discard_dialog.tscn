@@ -45,7 +45,7 @@ text = "Keep My Edits"
 [node name="DiscardButton" type="Button" parent="Margin/Body/Buttons"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Discard and Refresh"
+text = "Discard and Sync"
 
 [node name="Close" type="TextureButton" parent="."]
 unique_name_in_owner = true
