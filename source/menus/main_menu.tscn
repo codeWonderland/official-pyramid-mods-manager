@@ -121,7 +121,8 @@ text = "Edit Mods"
 [node name="Refresh" type="Button" parent="MarginContainer/Layout/Panel/Margin/Body/Actions"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Get Latest"
+tooltip_text = "Download the newest official mods from GitHub. Asks first if that would throw away work you haven't submitted."
+text = "Sync Mods"
 
 [node name="Submit" type="Button" parent="MarginContainer/Layout/Panel/Margin/Body/Actions"]
 unique_name_in_owner = true

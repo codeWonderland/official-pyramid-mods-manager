@@ -72,7 +72,7 @@ func download() -> Dictionary:
 
 
 func refresh(discard_changes: bool = false) -> Dictionary:
-	return await _run("Getting the latest mods from GitHub...", repo.refresh.bind(discard_changes))
+	return await _run("Syncing with GitHub...", repo.refresh.bind(discard_changes))
 
 
 func submit(title: String, body: String) -> Dictionary:

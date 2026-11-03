@@ -136,25 +136,33 @@ func has_changes() -> bool:
 	return not (await changed_packs()).is_empty()
 
 
-## Brings the copy up to date with GitHub. Unsubmitted edits are never thrown
-## away quietly: with any present, this stops and reports them unless the
-## player has confirmed with `discard_changes`.
+## Brings the copy up to date with GitHub. Nothing is thrown away quietly: with
+## anything present that the update would lose - edited or new packs, other
+## edited files, or commits that never reached GitHub - this stops and reports
+## it unless the player has confirmed with `discard_changes`.
 func refresh(discard_changes: bool = false) -> Dictionary:
 	if not is_cloned():
 		return await clone()
 
-	var changed := await changed_packs()
-	if not changed.is_empty() and not discard_changes:
-		return {
-			"ok": false,
-			"needs_confirmation": true,
-			"changed": changed,
-			"message": "You have edits that haven't been submitted yet.",
-		}
-
+	# Fetching only downloads; it changes nothing in the copy, so it's safe to do
+	# before asking, and the check for unsent commits needs it.
 	var fetch := await _git(["fetch", "--quiet", "origin", "main"])
 	if fetch.code != 0:
 		return _fail("Couldn't reach GitHub to check for updates.", fetch)
+
+	var at_risk := await unsaved_work()
+	if has_unsaved_work(at_risk) and not discard_changes:
+		(
+			at_risk
+			. merge(
+				{
+					"ok": false,
+					"needs_confirmation": true,
+					"message": "You have work that getting the latest mods would throw away.",
+				}
+			)
+		)
+		return at_risk
 
 	for step in [
 		["checkout", "--quiet", "--force", "main"],
@@ -166,6 +174,59 @@ func refresh(discard_changes: bool = false) -> Dictionary:
 			return _fail("Couldn't update the official mods.", result)
 
 	return _ok()
+
+
+## What getting the latest mods would lose, as
+## { changed: packs, other_files: paths, unsent_commits: count }:
+## - packs with edits or new files (the update resets and cleans PACKS),
+## - other files git tracks that have been edited (they are reset too; untracked
+##   files outside PACKS are left alone),
+## - commits on main that aren't on GitHub, or on a checkout that isn't on any
+##   branch. A submission's own branch is kept, and was pushed anyway.
+func unsaved_work() -> Dictionary:
+	var other_files: Array[String] = []
+	var status := await _git(
+		["-c", "core.quotePath=false", "status", "--porcelain", "--untracked-files=no"]
+	)
+	if status.code == 0:
+		other_files = files_outside_packs(status.output)
+
+	var unsent := 0
+	for args in [
+		["rev-list", "--count", "refs/heads/main", "--not", "--remotes"],
+		["rev-list", "--count", "HEAD", "--not", "--branches", "--remotes"],
+	]:
+		var result := await _git(args)
+		if result.code == 0 and str(result.output).strip_edges().is_valid_int():
+			unsent += int(str(result.output).strip_edges())
+
+	return {"changed": await changed_packs(), "other_files": other_files, "unsent_commits": unsent}
+
+
+static func has_unsaved_work(work: Dictionary) -> bool:
+	return (
+		not work.get("changed", []).is_empty()
+		or not work.get("other_files", []).is_empty()
+		or int(work.get("unsent_commits", 0)) > 0
+	)
+
+
+## Edited files outside PACKS, from `git status --porcelain` output.
+static func files_outside_packs(output: String) -> Array[String]:
+	var files: Array[String] = []
+	for line in output.split("\n", false):
+		if line.length() < 4:
+			continue
+		var file_path := line.substr(3)
+		if line[0] == "R" or line[0] == "C":
+			var arrow := file_path.find(" -> ")
+			if arrow != -1:
+				file_path = file_path.substr(arrow + 4)
+		file_path = _unquote(file_path)
+		if not file_path.begins_with("PACKS/") and not files.has(file_path):
+			files.append(file_path)
+	files.sort()
+	return files
 
 
 ## Sends the edited packs to GitHub as a pull request. On success the copy goes

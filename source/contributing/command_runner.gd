@@ -40,7 +40,10 @@ static func platform_args(args: PackedStringArray, windows: bool) -> PackedStrin
 func _execute(program: String, args: PackedStringArray) -> Dictionary:
 	var output: Array = []
 	var code := OS.execute(program, platform_args(args, OS.get_name() == "Windows"), output, true)
-	var text := "".join(output).strip_edges()
+	# Only trailing whitespace goes: git's status lines begin with a space for a
+	# change that isn't staged (" M file"), and trimming the front cut the first
+	# line's path short - hiding an edited card from the refresh and submit checks.
+	var text := "".join(output).strip_edges(false, true)
 
 	# Windows reports a program that can't be started as -1; Linux and macOS
 	# start it through the shell, which exits 127 with "not found". Treat both

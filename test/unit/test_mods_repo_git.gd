@@ -66,6 +66,10 @@ func _commit_seed(message: String) -> void:
 	_git_raw(["-C", _seed, "push", "--quiet", "origin", "HEAD:main"])
 
 
+func _read(file: String) -> String:
+	return FileAccess.get_file_as_string(file)
+
+
 func _copy_file(file: String) -> String:
 	return _repo.path.path_join(file)
 
@@ -99,6 +103,13 @@ func test_edits_and_new_packs_are_detected_by_pack() -> void:
 	_write(_repo.path, "PACKS/beta pack/b1.png", "a new pack")
 
 	assert_eq(await _repo.changed_packs(), ["alpha", "beta pack"], "each edited pack, once")
+
+
+func test_an_edited_card_is_detected_even_when_it_is_listed_first() -> void:
+	await _repo.clone()
+	_write(_repo.path, "PACKS/alpha/b1.png", "a changed back")
+
+	assert_eq(await _repo.changed_packs(), ["alpha"], "an edit to an existing card counts")
 
 
 # --- Refreshing ---
@@ -140,6 +151,66 @@ func test_refresh_can_discard_edits_when_told_to() -> void:
 	assert_false(await _repo.has_changes(), "matches GitHub exactly")
 
 
+func _commit_in_copy(message: String) -> void:
+	_git_raw(["-C", _repo.path, "add", "--all"])
+	_git_raw(
+		[
+			"-C",
+			_repo.path,
+			"-c",
+			"user.name=Tester",
+			"-c",
+			"user.email=tester@example.com",
+			"commit",
+			"--quiet",
+			"-m",
+			message
+		]
+	)
+
+
+func test_refresh_warns_about_edits_outside_the_packs() -> void:
+	_write(_seed, "renames.json", "{}")
+	_commit_seed("Add renames")
+	await _repo.clone()
+	_write(_repo.path, "renames.json", '{"renames": {}}')
+
+	var result := await _repo.refresh()
+
+	assert_true(result.needs_confirmation, "asks first")
+	assert_eq(result.changed, [], "no pack was edited")
+	assert_eq(result.other_files, ["renames.json"], "names the file")
+	assert_eq(_read(_copy_file("renames.json")), '{"renames": {}}', "the edit survives")
+
+
+func test_refresh_warns_about_commits_that_never_reached_github() -> void:
+	await _repo.clone()
+	_write(_repo.path, "PACKS/alpha/p2.png", "committed by hand")
+	_commit_in_copy("Work in progress")
+
+	var result := await _repo.refresh()
+
+	assert_true(result.needs_confirmation, "asks first, though nothing is uncommitted")
+	assert_eq(result.unsent_commits, 1, "counts the commit")
+	assert_true(FileAccess.file_exists(_copy_file("PACKS/alpha/p2.png")), "the commit survives")
+
+	var discarded := await _repo.refresh(true)
+	assert_true(discarded.ok, "goes ahead once confirmed")
+	assert_false(FileAccess.file_exists(_copy_file("PACKS/alpha/p2.png")), "matches GitHub")
+
+
+func test_refresh_notices_official_changes_while_edits_wait() -> void:
+	await _repo.clone()
+	_write(_seed, "PACKS/gamma/b1.png", "published later")
+	_commit_seed("Add gamma")
+	_write(_repo.path, "PACKS/alpha/p2.png", "unsubmitted work")
+
+	var result := await _repo.refresh()
+
+	assert_true(result.needs_confirmation, "still asks")
+	assert_eq(result.unsent_commits, 0, "GitHub moving on isn't the player's unsent work")
+
+
 # --- Submitting ---
 
 
@@ -161,6 +232,17 @@ func test_submitting_pushes_a_branch_and_returns_to_the_official_packs() -> void
 
 	assert_eq(_git_raw(["-C", _repo.path, "branch", "--show-current"]), "main", "back on main")
 	assert_false(await _repo.has_changes(), "the editor shows the official packs again")
+
+
+func test_a_submitted_branch_is_not_counted_as_unsent() -> void:
+	await _repo.clone()
+	_fake_github()
+	_write(_repo.path, "PACKS/alpha/p2.png", "my new primary")
+	await _repo.submit("Add a primary", "One more challenge.")
+
+	var result := await _repo.refresh()
+
+	assert_true(result.ok, "the submission is on GitHub, so nothing is at risk")
 
 
 func test_a_failed_submission_leaves_the_edits_exactly_where_they_were() -> void:
