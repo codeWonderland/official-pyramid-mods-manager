@@ -5,7 +5,6 @@
 [ext_resource type="StyleBox" uid="uid://bt1fm0linub66" path="res://assets/themes/style_boxes/checkbox.tres" id="2_axncs"]
 [ext_resource type="StyleBox" uid="uid://u1snu468ch3a" path="res://assets/themes/style_boxes/panel_container.tres" id="2_lxams"]
 [ext_resource type="Texture2D" uid="uid://bhgkip670mh4r" path="res://assets/sprites/ui/icons/down-caret.png" id="5_4fp8c"]
-[ext_resource type="StyleBox" uid="uid://c2utbn782dhf3" path="res://assets/themes/style_boxes/selected_button.tres" id="7_0f6i3"]
 [ext_resource type="Texture2D" uid="uid://c1icm337leqt7" path="res://assets/sprites/ui/buttons/blank-card.png" id="8_card"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_card"]
@@ -71,18 +70,6 @@ expand_margin_top = 6.0
 expand_margin_right = 6.0
 expand_margin_bottom = 6.0
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_selectable_hover"]
-content_margin_left = 48.0
-content_margin_top = 16.0
-content_margin_right = 48.0
-content_margin_bottom = 16.0
-bg_color = Color(0.28235295, 0.28235295, 0.28235295, 1)
-border_width_left = 4
-border_width_top = 4
-border_width_right = 4
-border_width_bottom = 4
-border_color = Color(1, 1, 1, 1)
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_checkbox_hover"]
 bg_color = Color(0.68235296, 0.89803922, 0.96862745, 1)
 border_width_left = 8
@@ -111,6 +98,54 @@ bg_color = Color(0.21960784, 0.54901963, 0.68235296, 1)
 bg_color = Color(0.30980393, 0.7294118, 0.8745098, 1)
 
 [sub_resource type="ImageTexture" id="ImageTexture_0f6i3"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_library_mark"]
+content_margin_left = 12.0
+content_margin_top = 10.0
+content_margin_right = 12.0
+content_margin_bottom = 10.0
+bg_color = Color(0.2, 0.2, 0.22, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.094, 0.678, 1, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_library_mark_hover"]
+content_margin_left = 12.0
+content_margin_top = 10.0
+content_margin_right = 12.0
+content_margin_bottom = 10.0
+bg_color = Color(0.3, 0.33, 0.42, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.094, 0.678, 1, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_library_mark_on"]
+content_margin_left = 12.0
+content_margin_top = 10.0
+content_margin_right = 12.0
+content_margin_bottom = 10.0
+bg_color = Color(0.094, 0.678, 1, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.094, 0.678, 1, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
 
 [resource]
 BigTitle/base_type = &"Label"
@@ -176,9 +211,11 @@ PopupMenu/icons/radio_unchecked = SubResource("ImageTexture_0f6i3")
 RichTextLabel/constants/outline_size = 8
 RichTextLabel/font_sizes/normal_font_size = 32
 SelectableButton/base_type = &"Button"
-SelectableButton/styles/hover = SubResource("StyleBoxFlat_selectable_hover")
-SelectableButton/styles/focus = ExtResource("7_0f6i3")
-SelectableButton/styles/pressed = ExtResource("7_0f6i3")
+SelectableButton/styles/focus = SubResource("StyleBoxFlat_focus_ring")
+SelectableButton/styles/hover = SubResource("StyleBoxFlat_library_mark_hover")
+SelectableButton/styles/hover_pressed = SubResource("StyleBoxFlat_library_mark_on")
+SelectableButton/styles/normal = SubResource("StyleBoxFlat_library_mark")
+SelectableButton/styles/pressed = SubResource("StyleBoxFlat_library_mark_on")
 SmallCheckBox/base_type = &"CheckBox"
 SmallCheckBox/font_sizes/font_size = 22
 TextEdit/font_sizes/font_size = 28
