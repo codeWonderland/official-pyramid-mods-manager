@@ -5,58 +5,6 @@
 [ext_resource type="StyleBox" uid="uid://bt1fm0linub66" path="res://assets/themes/style_boxes/checkbox.tres" id="2_axncs"]
 [ext_resource type="StyleBox" uid="uid://u1snu468ch3a" path="res://assets/themes/style_boxes/panel_container.tres" id="2_lxams"]
 [ext_resource type="Texture2D" uid="uid://bhgkip670mh4r" path="res://assets/sprites/ui/icons/down-caret.png" id="5_4fp8c"]
-[ext_resource type="Texture2D" uid="uid://c1icm337leqt7" path="res://assets/sprites/ui/buttons/blank-card.png" id="8_card"]
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_card"]
-content_margin_left = 48.0
-content_margin_top = 16.0
-content_margin_right = 48.0
-content_margin_bottom = 16.0
-texture = ExtResource("8_card")
-texture_margin_left = 1.0
-texture_margin_top = 4.0
-texture_margin_right = 1.0
-texture_margin_bottom = 4.0
-region_rect = Rect2(0, 0, 2088.2502, 2991.5942)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_card_hover"]
-content_margin_left = 48.0
-content_margin_top = 16.0
-content_margin_right = 48.0
-content_margin_bottom = 16.0
-texture = ExtResource("8_card")
-texture_margin_left = 1.0
-texture_margin_top = 4.0
-texture_margin_right = 1.0
-texture_margin_bottom = 4.0
-region_rect = Rect2(0, 0, 2088.2502, 2991.5942)
-modulate_color = Color(1.25, 1.25, 1.25, 1)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_card_pressed"]
-content_margin_left = 48.0
-content_margin_top = 16.0
-content_margin_right = 48.0
-content_margin_bottom = 16.0
-texture = ExtResource("8_card")
-texture_margin_left = 1.0
-texture_margin_top = 4.0
-texture_margin_right = 1.0
-texture_margin_bottom = 4.0
-region_rect = Rect2(0, 0, 2088.2502, 2991.5942)
-modulate_color = Color(0.68, 0.68, 0.68, 1)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_card_disabled"]
-content_margin_left = 48.0
-content_margin_top = 16.0
-content_margin_right = 48.0
-content_margin_bottom = 16.0
-texture = ExtResource("8_card")
-texture_margin_left = 1.0
-texture_margin_top = 4.0
-texture_margin_right = 1.0
-texture_margin_bottom = 4.0
-region_rect = Rect2(0, 0, 2088.2502, 2991.5942)
-modulate_color = Color(0.55, 0.55, 0.55, 0.55)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_focus_ring"]
 draw_center = false
@@ -86,16 +34,7 @@ border_width_right = 8
 border_width_bottom = 8
 border_color = Color(0.21960784, 0.52156863, 0.62352943, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_option_hover"]
-bg_color = Color(0.41960785, 0.81960785, 0.9411765, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_option_pressed"]
-bg_color = Color(0.21960784, 0.54901963, 0.68235296, 1)
-
 [sub_resource type="ImageTexture" id="ImageTexture_4fp8c"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_luy55"]
-bg_color = Color(0.30980393, 0.7294118, 0.8745098, 1)
 
 [sub_resource type="ImageTexture" id="ImageTexture_0f6i3"]
 
@@ -147,6 +86,86 @@ corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pill_focus"]
+draw_center = false
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.30980393, 0.7294118, 0.8745098, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+expand_margin_left = 6.0
+expand_margin_top = 6.0
+expand_margin_right = 6.0
+expand_margin_bottom = 6.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pill"]
+content_margin_left = 32.0
+content_margin_top = 12.0
+content_margin_right = 32.0
+content_margin_bottom = 12.0
+bg_color = Color(0.2, 0.2, 0.22, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.094, 0.678, 1, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pill_hover"]
+content_margin_left = 32.0
+content_margin_top = 12.0
+content_margin_right = 32.0
+content_margin_bottom = 12.0
+bg_color = Color(0.3, 0.33, 0.42, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.094, 0.678, 1, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pill_pressed"]
+content_margin_left = 32.0
+content_margin_top = 12.0
+content_margin_right = 32.0
+content_margin_bottom = 12.0
+bg_color = Color(0.094, 0.678, 1, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.094, 0.678, 1, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pill_disabled"]
+content_margin_left = 32.0
+content_margin_top = 12.0
+content_margin_right = 32.0
+content_margin_bottom = 12.0
+bg_color = Color(0.2, 0.2, 0.22, 0.6)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.094, 0.678, 1, 0.35)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
 [resource]
 BigTitle/base_type = &"Label"
 BigTitle/colors/font_shadow_color = Color(0, 0, 0, 1)
@@ -155,14 +174,16 @@ BigTitle/constants/outline_size = 16
 BigTitle/constants/shadow_offset_x = 8
 BigTitle/constants/shadow_offset_y = 8
 BigTitle/font_sizes/font_size = 48
+Button/colors/font_disabled_color = Color(1, 1, 1, 0.45)
 Button/colors/font_outline_color = Color(0, 0, 0, 1)
 Button/constants/outline_size = 12
 Button/font_sizes/font_size = 32
-Button/styles/disabled = SubResource("StyleBoxTexture_card_disabled")
-Button/styles/focus = SubResource("StyleBoxFlat_focus_ring")
-Button/styles/hover = SubResource("StyleBoxTexture_card_hover")
-Button/styles/normal = SubResource("StyleBoxTexture_card")
-Button/styles/pressed = SubResource("StyleBoxTexture_card_pressed")
+Button/styles/disabled = SubResource("StyleBoxFlat_pill_disabled")
+Button/styles/focus = SubResource("StyleBoxFlat_pill_focus")
+Button/styles/hover = SubResource("StyleBoxFlat_pill_hover")
+Button/styles/hover_pressed = SubResource("StyleBoxFlat_pill_pressed")
+Button/styles/normal = SubResource("StyleBoxFlat_pill")
+Button/styles/pressed = SubResource("StyleBoxFlat_pill_pressed")
 CheckBox/icons/checked = ExtResource("1_gvtt4")
 CheckBox/icons/unchecked = SubResource("ImageTexture_4fp8c")
 CheckBox/styles/disabled = ExtResource("2_axncs")
@@ -199,11 +220,12 @@ OptionButton/constants/h_separation = 16
 OptionButton/constants/outline_size = 8
 OptionButton/font_sizes/font_size = 32
 OptionButton/icons/arrow = ExtResource("5_4fp8c")
-OptionButton/styles/focus = SubResource("StyleBoxFlat_focus_ring")
-OptionButton/styles/hover = SubResource("StyleBoxFlat_option_hover")
-OptionButton/styles/hover_mirrored = SubResource("StyleBoxFlat_option_hover")
-OptionButton/styles/normal = SubResource("StyleBoxFlat_luy55")
-OptionButton/styles/pressed = SubResource("StyleBoxFlat_option_pressed")
+OptionButton/styles/focus = SubResource("StyleBoxFlat_pill_focus")
+OptionButton/styles/hover = SubResource("StyleBoxFlat_pill_hover")
+OptionButton/styles/hover_mirrored = SubResource("StyleBoxFlat_pill_hover")
+OptionButton/styles/normal = SubResource("StyleBoxFlat_pill")
+OptionButton/styles/normal_mirrored = SubResource("StyleBoxFlat_pill")
+OptionButton/styles/pressed = SubResource("StyleBoxFlat_pill_pressed")
 PanelContainer/styles/panel = ExtResource("2_lxams")
 PopupMenu/font_sizes/font_size = 40
 PopupMenu/icons/radio_checked = ExtResource("1_gvtt4")
@@ -211,7 +233,7 @@ PopupMenu/icons/radio_unchecked = SubResource("ImageTexture_0f6i3")
 RichTextLabel/constants/outline_size = 8
 RichTextLabel/font_sizes/normal_font_size = 32
 SelectableButton/base_type = &"Button"
-SelectableButton/styles/focus = SubResource("StyleBoxFlat_focus_ring")
+SelectableButton/styles/focus = SubResource("StyleBoxFlat_pill_focus")
 SelectableButton/styles/hover = SubResource("StyleBoxFlat_library_mark_hover")
 SelectableButton/styles/hover_pressed = SubResource("StyleBoxFlat_library_mark_on")
 SelectableButton/styles/normal = SubResource("StyleBoxFlat_library_mark")
